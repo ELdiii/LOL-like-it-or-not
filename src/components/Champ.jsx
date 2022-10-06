@@ -9,13 +9,19 @@ const Champ = ({ selectedChamp: { name, img } }) => {
         <motion.img
           initial={{ opacity: 0 }}
           animate={{ scale: [0.9, 1.05, 1], opacity: 1 }}
-          transition={{ delay: 1 }}
-          src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${img}.jpg`}
-          alt={img}
+          transition={{ delay: 0.5 }}
+          src={
+            img !== undefined
+              ? `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${img}.jpg`
+              : ""
+          }
+          alt={name}
           className="absolute w-80"
         />
       </div>
-      <div className="text-center text-white text-3xl">{name}</div>
+      <div className="text-center text-white text-3xl flex-wrap h-24 w-64">
+        {name}
+      </div>
     </div>
   );
 };

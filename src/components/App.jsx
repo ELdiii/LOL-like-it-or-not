@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import getChampions from "../api/getChampions";
 import Champ from "./Champ";
 import { motion, AnimatePresence } from "framer-motion";
+import { BsCheckLg, BsXLg } from "react-icons/bs";
 
 let champList = [];
+let smashList = [];
+let passList = [];
 
 export default function App() {
   const [index, setIndex] = useState();
@@ -22,10 +25,13 @@ export default function App() {
       <div className="flex flex-col items-center h-screen pt-10 bg-gray-800">
         <div className="flex items-center gap-10">
           <button
-            className="bg-teal-300"
-            onClick={() => setIndex((prevState) => prevState + 1)}
+            className="bg-green-500 py-5 px-5 rounded-full"
+            onClick={() => {
+              smashList.push(champList[index]);
+              setIndex((prevState) => prevState + 1);
+            }}
           >
-            PASS
+            <BsCheckLg />
           </button>
 
           <AnimatePresence mode="wait">
@@ -36,11 +42,20 @@ export default function App() {
               exit={{ y: 50, opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
             >
-              <Champ
-                selectedChamp={champList.length ? champList[index] : {}}
-              />
+              <Champ selectedChamp={champList.length ? champList[index] : {}} />
             </motion.div>
           </AnimatePresence>
+          <motion.button
+            key={index}
+            animate={{ rotate: 90 }}
+            className="bg-red-600 py-5 px-5 rounded-full"
+            onClick={() => {
+              passList.push(champList[index]);
+              setIndex((prevState) => prevState + 1);
+            }}
+          >
+            <BsXLg />
+          </motion.button>
         </div>
       </div>
     </>
