@@ -3,6 +3,7 @@ import getChampions from "../api/getChampions";
 import Champ from "./Champ";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
+import SidePanel from "./SidePanel";
 
 let champList = [];
 let smashList = [];
@@ -24,10 +25,14 @@ export default function App() {
     <>
       <div className="flex flex-col items-center h-screen pt-10 bg-gray-800">
         <div className="flex items-center gap-10">
+          <SidePanel champArray={smashList} />
           <button
             className="bg-green-500 py-5 px-5 rounded-full"
             onClick={() => {
-              smashList.push(champList[index]);
+              smashList.unshift(champList[index]);
+              if ((smashList.length = 11)) {
+                smashList.pop();
+              }
               setIndex((prevState) => prevState + 1);
             }}
           >
@@ -50,12 +55,16 @@ export default function App() {
             animate={{ rotate: 90 }}
             className="bg-red-600 py-5 px-5 rounded-full"
             onClick={() => {
-              passList.push(champList[index]);
+              passList.unshift(champList[index]);
+              if ((passList.length = 11)) {
+                passList.pop();
+              }
               setIndex((prevState) => prevState + 1);
             }}
           >
             <BsXLg />
           </motion.button>
+          <SidePanel champArray={passList} />
         </div>
       </div>
     </>
