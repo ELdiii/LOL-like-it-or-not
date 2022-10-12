@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function SidePanel({ champArray, position }) {
+export default function SidePanel({ champArray }) {
   return (
     <>
       <motion.div className="w-80 ">

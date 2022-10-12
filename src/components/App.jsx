@@ -4,6 +4,7 @@ import Champ from "./Champ";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
 import SidePanel from "./SidePanel";
+import Header from "./Header";
 
 let champList = [];
 
@@ -33,19 +34,19 @@ export default function App() {
     <>
       <div className="flex flex-col items-center h-screen pt-10 bg-gray-800">
         <div className="flex items-center gap-10">
-          <SidePanel champArray={smashList} position="left" />
+          <SidePanel
+            champArray={smashList.slice(0, 10).reverse()}
+            position="left"
+          />
           <motion.button
             whileTap="click"
             className="bg-green-500 py-5 px-5 rounded-full will-change-transform"
             onClick={() => {
               setSmashList((prevState) => {
-                if (prevState.length > 9) {
-                  return [...prevState, champList[index]].slice(1, 11);
-                } else {
-                  return [...prevState, champList[index]];
-                }
+                return [champList[index], ...prevState];
               });
               setIndex((prevState) => prevState + 1);
+              console.log(smashList);
             }}
           >
             <motion.div variants={iconVariants}>
@@ -61,7 +62,7 @@ export default function App() {
               exit={{ y: 50, opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
             >
-              <Champ  selectedChamp={champList.length ? champList[index] : {}} />
+              <Champ selectedChamp={champList.length ? champList[index] : {}} />
             </motion.div>
           </AnimatePresence>
           <motion.button
@@ -69,11 +70,7 @@ export default function App() {
             className="bg-red-600 py-5 px-5 rounded-full will-change-transform"
             onClick={() => {
               setPassList((prevState) => {
-                if (prevState.length > 9) {
-                  return [...prevState, champList[index]].slice(1, 11);
-                } else {
-                  return [...prevState, champList[index]];
-                }
+                return [champList[index], ...prevState];
               });
               setIndex((prevState) => prevState + 1);
             }}
@@ -82,7 +79,10 @@ export default function App() {
               <BsXLg />
             </motion.div>
           </motion.button>
-          <SidePanel champArray={passList} position="right" />
+          <SidePanel
+            champArray={passList.slice(0, 10).reverse()}
+            position="right"
+          />
         </div>
       </div>
     </>
