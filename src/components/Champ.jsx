@@ -9,7 +9,7 @@ const Champ = ({ selectedChamp: { name, img } }) => {
         <motion.img
           initial={{ opacity: 0 }}
           animate={{ scale: [0.9, 1.05, 1], opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.4 }}
           src={
             img !== undefined
               ? `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${img}.jpg`

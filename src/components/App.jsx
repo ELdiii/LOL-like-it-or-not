@@ -6,11 +6,11 @@ import { BsCheckLg, BsXLg } from "react-icons/bs";
 import SidePanel from "./SidePanel";
 
 let champList = [];
-let smashList = [];
-let passList = [];
 
 export default function App() {
   const [index, setIndex] = useState();
+  const [smashList, setSmashList] = useState([]);
+  const [passList, setPassList] = useState([]);
 
   useEffect(() => {
     const startGame = async () => {
@@ -18,26 +18,40 @@ export default function App() {
       champList.sort(() => Math.random() - 0.5);
       setIndex(1);
     };
+
     startGame();
   }, []);
+
+  const iconVariants = {
+    click: {
+      scale: 0.6,
+      transition: { duration: 0.08 },
+    },
+  };
 
   return (
     <>
       <div className="flex flex-col items-center h-screen pt-10 bg-gray-800">
         <div className="flex items-center gap-10">
-          <SidePanel champArray={smashList} />
-          <button
-            className="bg-green-500 py-5 px-5 rounded-full"
+          <SidePanel champArray={smashList} position="left" />
+          <motion.button
+            whileTap="click"
+            className="bg-green-500 py-5 px-5 rounded-full will-change-transform"
             onClick={() => {
-              smashList.unshift(champList[index]);
-              if ((smashList.length = 11)) {
-                smashList.pop();
-              }
+              setSmashList((prevState) => {
+                if (prevState.length > 9) {
+                  return [...prevState, champList[index]].slice(1, 11);
+                } else {
+                  return [...prevState, champList[index]];
+                }
+              });
               setIndex((prevState) => prevState + 1);
             }}
           >
-            <BsCheckLg />
-          </button>
+            <motion.div variants={iconVariants}>
+              <BsCheckLg />
+            </motion.div>
+          </motion.button>
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -47,24 +61,28 @@ export default function App() {
               exit={{ y: 50, opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
             >
-              <Champ selectedChamp={champList.length ? champList[index] : {}} />
+              <Champ  selectedChamp={champList.length ? champList[index] : {}} />
             </motion.div>
           </AnimatePresence>
           <motion.button
-            key={index}
-            animate={{ rotate: 90 }}
-            className="bg-red-600 py-5 px-5 rounded-full"
+            whileTap="click"
+            className="bg-red-600 py-5 px-5 rounded-full will-change-transform"
             onClick={() => {
-              passList.unshift(champList[index]);
-              if ((passList.length = 11)) {
-                passList.pop();
-              }
+              setPassList((prevState) => {
+                if (prevState.length > 9) {
+                  return [...prevState, champList[index]].slice(1, 11);
+                } else {
+                  return [...prevState, champList[index]];
+                }
+              });
               setIndex((prevState) => prevState + 1);
             }}
           >
-            <BsXLg />
+            <motion.div variants={iconVariants}>
+              <BsXLg />
+            </motion.div>
           </motion.button>
-          <SidePanel champArray={passList} />
+          <SidePanel champArray={passList} position="right" />
         </div>
       </div>
     </>
