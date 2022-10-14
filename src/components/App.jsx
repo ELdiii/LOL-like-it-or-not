@@ -8,6 +8,7 @@ import SidePanel from "./SidePanel";
 let champList = [];
 
 export default function App() {
+  //initialize state
   const [index, setIndex] = useState();
   const [smashList, setSmashList] = useState([]);
   const [passList, setPassList] = useState([]);
@@ -51,6 +52,9 @@ export default function App() {
             className="bg-green-500 py-5 px-5 rounded-full will-change-transform"
             onClick={() => {
               setSmashList((prevState) => {
+                if (prevState.includes(champList[index])) {
+                  return
+                }
                 return [champList[index], ...prevState];
               });
               setIndex((prevState) => prevState + 1);
