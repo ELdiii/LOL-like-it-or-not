@@ -4,7 +4,6 @@ import Champ from "./Champ";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
 import SidePanel from "./SidePanel";
-import Header from "./Header";
 
 let champList = [];
 
@@ -19,9 +18,18 @@ export default function App() {
       champList.sort(() => Math.random() - 0.5);
       setIndex(1);
     };
-
+    setSmashList(JSON.parse(localStorage.getItem("smashlist") ?? "[]"));
+    setPassList(JSON.parse(localStorage.getItem("passlist") ?? "[]"));
     startGame();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("smashlist", JSON.stringify(smashList));
+  }, [smashList]);
+
+  useEffect(() => {
+    localStorage.setItem("passlist", JSON.stringify(passList));
+  }, [passList]);
 
   const iconVariants = {
     click: {
@@ -46,7 +54,6 @@ export default function App() {
                 return [champList[index], ...prevState];
               });
               setIndex((prevState) => prevState + 1);
-              console.log(smashList);
             }}
           >
             <motion.div variants={iconVariants}>
@@ -84,6 +91,18 @@ export default function App() {
             position="right"
           />
         </div>
+        <motion.button
+          className="bg-slate-700  px-4 py-0.5 rounded-md text-white border-solid border-2 border-white will-change-transform"
+          whileHover={{ scale: 0.95 }}
+          onClick={() => {
+            localStorage.setItem("smashlist", "");
+            localStorage.setItem("passlist", "");
+            setSmashList([]);
+            setPassList([]);
+          }}
+        >
+          Reset Game
+        </motion.button>
       </div>
     </>
   );
