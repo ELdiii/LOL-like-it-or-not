@@ -1,6 +1,6 @@
-# League of Legends SMASH or PASS webApp
+# League of Legends skin picker WebApp
 
-### simple smash or pass like app featuring over 1500+ skins
+### simple skin picker app featuring over 1500+ skins
 
 ##### Co-authored by [losi47](https://github.com/JanMiskovic)
 

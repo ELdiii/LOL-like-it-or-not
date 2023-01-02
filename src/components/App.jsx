@@ -10,27 +10,28 @@ let champList = [];
 export default function App() {
   //initialize state
   const [index, setIndex] = useState();
-  const [smashList, setSmashList] = useState([]);
-  const [passList, setPassList] = useState([]);
+  const [likeList, setLikeList] = useState([]);
+  const [dislikeList, setDislikeList] = useState([]);
 
+  
   useEffect(() => {
     const startGame = async () => {
       await dataRequest();
       champList.sort(() => Math.random() - 0.5);
       setIndex(1);
     };
-    setSmashList(JSON.parse(localStorage.getItem("smashlist") ?? "[]"));
-    setPassList(JSON.parse(localStorage.getItem("passlist") ?? "[]"));
+    setLikeList(JSON.parse(localStorage.getItem("likeList") ?? "[]"));
+    setDislikeList(JSON.parse(localStorage.getItem("dislikeList") ?? "[]"));
     startGame();
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("smashlist", JSON.stringify(smashList));
-  }, [smashList]);
+    localStorage.setItem("likeList", JSON.stringify(likeList));
+  }, [likeList]);
 
   useEffect(() => {
-    localStorage.setItem("passlist", JSON.stringify(passList));
-  }, [passList]);
+    localStorage.setItem("dislikeList", JSON.stringify(dislikeList));
+  }, [dislikeList]);
 
   const iconVariants = {
     click: {
@@ -44,14 +45,14 @@ export default function App() {
       <div className="flex flex-col items-center h-screen pt-10 bg-gray-800">
         <div className="flex items-center gap-10">
           <SidePanel
-            champArray={smashList.slice(0, 10).reverse()}
+            champArray={likeList.slice(0, 10).reverse()}
             position="left"
           />
           <motion.button
             whileTap="click"
             className="bg-green-500 py-5 px-5 rounded-full will-change-transform"
             onClick={() => {
-              setSmashList((prevState) => {
+              setLikeList((prevState) => {
                 if (prevState.includes(champList[index])) {
                   return
                 }
@@ -80,7 +81,7 @@ export default function App() {
             whileTap="click"
             className="bg-red-600 py-5 px-5 rounded-full will-change-transform"
             onClick={() => {
-              setPassList((prevState) => {
+              setDislikeList((prevState) => {
                 return [champList[index], ...prevState];
               });
               setIndex((prevState) => prevState + 1);
@@ -91,7 +92,7 @@ export default function App() {
             </motion.div>
           </motion.button>
           <SidePanel
-            champArray={passList.slice(0, 10).reverse()}
+            champArray={dislikeList.slice(0, 10).reverse()}
             position="right"
           />
         </div>
@@ -99,10 +100,10 @@ export default function App() {
           className="bg-slate-700  px-4 py-0.5 rounded-md text-white border-solid border-2 border-white will-change-transform"
           whileHover={{ scale: 0.95 }}
           onClick={() => {
-            localStorage.setItem("smashlist", "");
-            localStorage.setItem("passlist", "");
-            setSmashList([]);
-            setPassList([]);
+            localStorage.setItem("likeList", "");
+            localStorage.setItem("dislikeList", "");
+            setLikeList([]);
+            setDislikeList([]);
           }}
         >
           Reset Game
